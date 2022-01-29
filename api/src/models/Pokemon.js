@@ -20,6 +20,9 @@ module.exports = (sequelize) => {
     strength: {
       type: DataTypes.INTEGER,
     },
+    attack: {
+      type: DataTypes.INTEGER,
+    },
     defense: {
       type: DataTypes.INTEGER,
     },
@@ -29,8 +32,11 @@ module.exports = (sequelize) => {
     height: {
       type: DataTypes.INTEGER,
     },
-    weigth: {
+    weight: {
       type: DataTypes.INTEGER,
+    },
+    image: {
+      type: DataTypes.STRING,
     },
   });
 };

@@ -25,26 +25,23 @@ module.exports = {
     try {
       const pokemons20 = await axios.get("https://pokeapi.co/api/v2/pokemon/");
       const pokemons40 = await axios.get(pokemons20.data.next);
-      const firstMapped = pokemons20.data.results.map((e) => axios.get(e.url));
-      const secondMapped = pokemons40.data.results.map((e) => axios.get(e.url));
-      const allUrls = firstMapped.concat(secondMapped);
+      const allPokes = pokemons20.data.results.concat(pokemons40.data.results);
+      const allUrls = allPokes.map((e) => axios.get(e.url));
       const data = await Promise.all(allUrls).then((e) => {
         const pokemons = e.map((e) => e.data);
-        const arr = [];
-        pokemons.forEach((e) => {
-          const types = e.types.map((e) => e.type.name);
-          arr.push({
+        const arr = pokemons.map((e) => {
+          return {
             id: e.id,
             name: e.name,
             image: e.sprites.other.home.front_default,
-            types,
+            types: e.types.map((e) => e.type.name),
             hp: e.stats[0].base_stat,
             attack: e.stats[1].base_stat,
             defense: e.stats[2].base_stat,
             speed: e.stats[5].base_stat,
             height: e.height,
             weight: e.weight,
-          });
+          };
         });
         return arr;
       });
@@ -84,7 +81,7 @@ module.exports = {
       );
       return foundPokemon.data;
     } catch (e) {
-      console.log("¡Error!");
+      console.log(e);
     }
   },
   getDbPokemonByName: async (name) => {

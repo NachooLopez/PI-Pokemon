@@ -30,17 +30,15 @@ module.exports = {
       const data = await Promise.all(allUrls).then((e) => {
         const pokemons = e.map((e) => e.data);
         const arr = pokemons.map((e) => {
+          const types = e.types.map(
+            (e) => e.type.name[0].toUpperCase() + e.type.name.slice(1)
+          );
+          const name = e.name[0].toUpperCase() + e.name.slice(1);
           return {
             id: e.id,
-            name: e.name,
+            name,
             image: e.sprites.other.home.front_default,
-            types: e.types.map((e) => e.type.name),
-            hp: e.stats[0].base_stat,
-            attack: e.stats[1].base_stat,
-            defense: e.stats[2].base_stat,
-            speed: e.stats[5].base_stat,
-            height: e.height,
-            weight: e.weight,
+            types,
           };
         });
         return arr;
@@ -61,6 +59,7 @@ module.exports = {
           "id",
           "name",
           "image",
+          "type",
           "hp",
           "attack",
           "defense",
@@ -90,6 +89,18 @@ module.exports = {
         where: {
           name,
         },
+        attributes: [
+          "id",
+          "name",
+          "hp",
+          "attack",
+          "defense",
+          "speed",
+          "height",
+          "weight",
+          "image",
+          "type",
+        ],
       });
       return foundPokemon;
     } catch (e) {
@@ -101,7 +112,23 @@ module.exports = {
       const foundPokemon = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${id}`
       );
-      return foundPokemon.data;
+      const pokemon = foundPokemon.data;
+      const types = pokemon.types.map(
+        (t) => t.type.name[0].toUpperCase() + t.type.name.slice(1)
+      );
+      const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+      return {
+        id: pokemon.id,
+        image: pokemon.sprites.other.home.front_default,
+        name,
+        types,
+        hp: pokemon.stats[0].base_stat,
+        attack: pokemon.stats[1].base_stat,
+        defense: pokemon.stats[2].base_stat,
+        speed: pokemon.stats[5].base_stat,
+        height: pokemon.height,
+        weight: pokemon.weight,
+      };
     } catch (e) {
       console.log(e);
     }
@@ -110,6 +137,37 @@ module.exports = {
     try {
       const foundPokemon = await Pokemon.findOne({ where: { id } });
       return foundPokemon;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  createPokemon: async (
+    name,
+    types,
+    hp,
+    attack,
+    defense,
+    speed,
+    height,
+    weight
+  ) => {
+    try {
+      const pokemon = await Pokemon.create({
+        name,
+        types,
+        hp,
+        attack,
+        defense,
+        speed,
+        height,
+        weight,
+      });
+
+      const typeDb = await Type.findAll({ where: { name: types } });
+
+      pokemon.addType(typeDb);
+
+      return pokemon;
     } catch (e) {
       console.log(e);
     }

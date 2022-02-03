@@ -6,6 +6,7 @@ const {
   getDbPokemonByName,
   getApiPokemonById,
   getDbPokemonById,
+  createPokemon,
 } = require("./functions");
 
 const router = Router();
@@ -49,7 +50,18 @@ router.get("/:idPokemon", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, life, strength } = req.body;
+  const { name, types, hp, attack, defense, speed, height, weight } = req.body;
+  const pokemon = await createPokemon(
+    name,
+    types,
+    hp,
+    attack,
+    defense,
+    speed,
+    height,
+    weight
+  );
+  res.json(pokemon);
 });
 
 module.exports = router;

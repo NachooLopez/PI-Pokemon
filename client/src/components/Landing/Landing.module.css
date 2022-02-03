@@ -1,5 +1,20 @@
 .container {
+  position: absolute;
+  top: 20px;
   display: flex;
+  z-index: 1;
+  flex-direction: column;
+  gap: 30px;
+  margin: 20px;
+  height: calc(100vh - 40px);
+  width: calc(100vw - 40px);
+  opacity: 85%;
+  border-radius: 20px;
+}
+
+.background {
+  display: flex;
+  z-index: 0;
   flex-direction: column;
   gap: 30px;
   margin: 20px;
@@ -14,6 +29,7 @@
   height: 300px;
   margin-left: auto;
   margin-right: auto;
+  opacity: 200%;
 }
 
 .button {
@@ -24,8 +40,10 @@
   border-radius: 10px;
   border-width: 3px;
   border-style: solid;
-  border-color: white;
+  border-color: #3a4772;
   background-color: var(--bg);
+  color: black;
+  font-weight: bolder;
   padding: 20px 40px;
   cursor: pointer;
 }

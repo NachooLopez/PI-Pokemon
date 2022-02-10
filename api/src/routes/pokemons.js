@@ -19,9 +19,10 @@ router.get("/", async (req, res) => {
       const apiPokeByName = await getApiPokemonByName(lowerName);
       if (!apiPokeByName) {
         const dbPokeByName = await getDbPokemonByName(lowerName);
-        if (!dbPokeByName) res.json({ error: "Pokemon not found!" });
-        else res.json(dbPokeByName);
-      } else res.json(apiPokeByName);
+        if (!dbPokeByName)
+          res.status(404).json({ error: "Pokemon not found!" });
+        else res.json([dbPokeByName]);
+      } else res.json([apiPokeByName]);
     } else {
       const apiPokemons = await getApiPokemons();
       const dbPokemons = await getDbPokemons();

@@ -30,15 +30,14 @@ module.exports = {
       const data = await Promise.all(allUrls).then((e) => {
         const pokemons = e.map((e) => e.data);
         const arr = pokemons.map((e) => {
-          const types = e.types.map(
-            (e) => e.type.name[0].toUpperCase() + e.type.name.slice(1)
-          );
+          const types = e.types.map((e) => e.type.name);
           const name = e.name[0].toUpperCase() + e.name.slice(1);
           return {
             id: e.id,
             name,
             image: e.sprites.other.home.front_default,
             types,
+            attack: e.stats[1].base_stat,
           };
         });
         return arr;
@@ -53,22 +52,19 @@ module.exports = {
       const pokemons = await Pokemon.findAll({
         include: {
           model: Type,
-          attributes: ["id", "name"],
+          through: {
+            attributes: [],
+          },
         },
-        attributes: [
-          "id",
-          "name",
-          "image",
-          "type",
-          "hp",
-          "attack",
-          "defense",
-          "speed",
-          "height",
-          "weight",
-        ],
+        attributes: ["id", "name", "image", "attack"],
       });
-      return pokemons;
+      return pokemons.map((e) => ({
+        id: e.id,
+        name: e.name,
+        image: e.image,
+        attack: e.attack,
+        types: e.types.map((e) => e.name),
+      }));
     } catch (e) {
       console.log(e);
     }
@@ -78,16 +74,34 @@ module.exports = {
       const foundPokemon = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${name}`
       );
-      return foundPokemon.data;
+      const pokemon = foundPokemon.data;
+      const pokeName = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+      const types = pokemon.types.map(
+        (e) => e.type.name[0].toUpperCase() + e.type.name.slice(1)
+      );
+      return {
+        id: pokemon.id,
+        name: pokeName,
+        image: pokemon.sprites.other.home.front_default,
+        types,
+        attack: pokemon.stats[1].base_stat,
+      };
     } catch (e) {
       console.log(e);
     }
   },
   getDbPokemonByName: async (name) => {
     try {
-      const foundPokemon = await Pokemon.findOne({
+      const foundPokemon = await Pokemon.findAll({
         where: {
           name,
+        },
+        include: {
+          model: Type,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
         },
         attributes: [
           "id",
@@ -99,7 +113,6 @@ module.exports = {
           "height",
           "weight",
           "image",
-          "type",
         ],
       });
       return foundPokemon;
@@ -113,9 +126,7 @@ module.exports = {
         `https://pokeapi.co/api/v2/pokemon/${id}`
       );
       const pokemon = foundPokemon.data;
-      const types = pokemon.types.map(
-        (t) => t.type.name[0].toUpperCase() + t.type.name.slice(1)
-      );
+      const types = pokemon.types.map((t) => t.type.name);
       const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
       return {
         id: pokemon.id,
@@ -135,8 +146,27 @@ module.exports = {
   },
   getDbPokemonById: async (id) => {
     try {
-      const foundPokemon = await Pokemon.findOne({ where: { id } });
-      return foundPokemon;
+      const foundPokemon = await Pokemon.findByPk(id, {
+        include: {
+          model: Type,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      });
+      return {
+        id: foundPokemon.id,
+        image: foundPokemon.image,
+        name: foundPokemon.name,
+        types: foundPokemon.types.map((e) => e.name),
+        hp: foundPokemon.hp,
+        attack: foundPokemon.attack,
+        defense: foundPokemon.defense,
+        speed: foundPokemon.speed,
+        height: foundPokemon.height,
+        weight: foundPokemon.weight,
+      };
     } catch (e) {
       console.log(e);
     }
@@ -152,6 +182,7 @@ module.exports = {
     weight
   ) => {
     try {
+      console.log(types);
       const pokemon = await Pokemon.create({
         name,
         types,
@@ -167,7 +198,7 @@ module.exports = {
 
       pokemon.addType(typeDb);
 
-      return pokemon;
+      return typeDb;
     } catch (e) {
       console.log(e);
     }

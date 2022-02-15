@@ -3,23 +3,20 @@
   flex-direction: column;
   height: 400px;
   width: 350px;
-  margin: 0px;
-  align-items: center;
-  justify-content: space-evenly;
-  place-self: center;
-  background-color: white;
-  border: 1px solid red;
-  margin: 20px 0;
+  background-color: aliceblue;
+  border: 1px solid aliceblue;
   border-radius: 14px;
   transition: transform 0.15s;
 }
 
 .card:hover {
-  transform: scale(1.01);
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 15px white);
 }
 
 .name {
-  margin-bottom: 0px;
+  margin-bottom: 0;
+  color: black;
 }
 
 .img {
@@ -31,15 +28,16 @@
   display: flex;
   gap: 20px;
   justify-content: center;
+  color: black;
+  font-weight: bold;
 }
 
 .imgCont {
-  background-color: green;
+  background-color: #5f8319;
   width: 100%;
   height: 100%;
   border-radius: 14px 14px 0 0;
-}
-
-.name {
+  display: flex;
+  align-items: center;
   justify-content: center;
 }

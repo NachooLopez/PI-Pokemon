@@ -11,6 +11,11 @@ const {
 
 const router = Router();
 
+router.get("/prueba", async (req, res) => {
+  const { name } = req.query;
+  res.json(await getDbPokemonByName(name.toLowerCase()));
+});
+
 router.get("/", async (req, res) => {
   try {
     const { name } = req.query;
@@ -19,10 +24,11 @@ router.get("/", async (req, res) => {
       const apiPokeByName = await getApiPokemonByName(lowerName);
       if (!apiPokeByName) {
         const dbPokeByName = await getDbPokemonByName(lowerName);
-        if (!dbPokeByName)
+        if (!dbPokeByName) {
+          console.log(dbPokeByName);
           res.status(404).json({ error: "Pokemon not found!" });
-        else res.json([dbPokeByName]);
-      } else res.json([apiPokeByName]);
+        } else res.json(dbPokeByName);
+      } else res.json(apiPokeByName);
     } else {
       const apiPokemons = await getApiPokemons();
       const dbPokemons = await getDbPokemons();
@@ -51,7 +57,8 @@ router.get("/:idPokemon", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, types, hp, attack, defense, speed, height, weight } = req.body;
+  const { name, types, hp, attack, defense, speed, height, weight, image } =
+    req.body;
   const pokemon = await createPokemon(
     name,
     types,
@@ -60,7 +67,8 @@ router.post("/", async (req, res) => {
     defense,
     speed,
     height,
-    weight
+    weight,
+    image
   );
   res.json(pokemon);
 });

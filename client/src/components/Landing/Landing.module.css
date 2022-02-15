@@ -26,9 +26,8 @@
 }
 
 .logo {
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 200px;
+  margin: 50px auto 70px auto;
   opacity: 200%;
 }
 

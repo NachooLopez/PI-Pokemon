@@ -10,7 +10,7 @@
 }
 
 .imgContainer {
-  background-color: #ff9500;
+  background-color: #ffca05;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,9 +20,9 @@
 .name {
   height: 50px;
   display: flex;
-  align-items: center;
   justify-content: center;
   font-size: 35px;
+  font-weight: bold;
 }
 
 .logo {
@@ -37,17 +37,17 @@
 
 .types {
   display: flex;
-  justify-content: space-evenly;
+  gap: 60px;
   align-items: center;
-  background-color: red;
-  width: max-content;
+  background-color: brown;
   height: 30px;
-  margin: 10px auto 0 auto;
+  padding: 0 30px;
   border-radius: 5px;
+  margin-top: 20px;
 }
 
 .type {
-  padding: 50px;
+  font-weight: bold;
 }
 
 .stats {
@@ -61,5 +61,35 @@
 }
 
 .stat {
-  width: 300px;
+  width: 250px;
+  border: 2px solid #ffca05;
+  border-radius: 10px;
+}
+
+.header {
+  margin: 50px;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nothing {
+  width: 500px;
+  margin: 50px;
+}
+
+.message {
+  color: white;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 }

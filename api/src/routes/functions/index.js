@@ -79,13 +79,15 @@ module.exports = {
       const types = pokemon.types.map(
         (e) => e.type.name[0].toUpperCase() + e.type.name.slice(1)
       );
-      return {
-        id: pokemon.id,
-        name: pokeName,
-        image: pokemon.sprites.other.home.front_default,
-        types,
-        attack: pokemon.stats[1].base_stat,
-      };
+      return [
+        {
+          id: pokemon.id,
+          name: pokeName,
+          image: pokemon.sprites.other.home.front_default,
+          types,
+          attack: pokemon.stats[1].base_stat,
+        },
+      ];
     } catch (e) {
       console.log(e);
     }
@@ -103,19 +105,15 @@ module.exports = {
             attributes: [],
           },
         },
-        attributes: [
-          "id",
-          "name",
-          "hp",
-          "attack",
-          "defense",
-          "speed",
-          "height",
-          "weight",
-          "image",
-        ],
+        attributes: ["id", "name", "attack", "image"],
       });
-      return foundPokemon;
+      return foundPokemon.map((e) => ({
+        id: e.id,
+        name: e.name,
+        image: e.image,
+        types: e.types.map((e) => e.name[0].toUpperCase() + e.name.slice(1)),
+        attack: e.attack,
+      }));
     } catch (e) {
       console.log(e);
     }
@@ -179,26 +177,31 @@ module.exports = {
     defense,
     speed,
     height,
-    weight
+    weight,
+    image
   ) => {
     try {
-      console.log(types);
+      if (!image) image = "https://i.imgur.com/G4WCJsE.png";
       const pokemon = await Pokemon.create({
         name,
-        types,
         hp,
         attack,
         defense,
         speed,
         height,
         weight,
+        image,
       });
 
-      const typeDb = await Type.findAll({ where: { name: types } });
+      const typeDb = await Type.findAll({
+        where: {
+          name: types,
+        },
+      });
 
       pokemon.addType(typeDb);
-
-      return typeDb;
+      console.log(pokemon);
+      return pokemon;
     } catch (e) {
       console.log(e);
     }

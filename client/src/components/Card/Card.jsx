@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import style from "./Card.module.css";
 
 const Card = ({ id, name, image, types }) => {
-  const upperName = name[0].toUpperCase() + name.slice(1);
-  const typesFE = types.map((e) => <h5>{e[0].toUpperCase() + e.slice(1)}</h5>);
+  const upperName = name?.charAt(0).toUpperCase() + name.slice(1);
+  const typesMapped = types?.map((e) => (
+    <h5 key={e}>{e[0].toUpperCase() + e.slice(1)}</h5>
+  ));
+
   return (
     <Link to={`/pokemons/${id}`}>
       <div className={style.card}>
@@ -13,7 +16,7 @@ const Card = ({ id, name, image, types }) => {
         </div>
         <div className={style.name_type}>
           <h1 className={style.name}>{upperName}</h1>
-          <div className={style.types}>{typesFE}</div>
+          <div className={style.types}>{typesMapped}</div>
         </div>
       </div>
     </Link>

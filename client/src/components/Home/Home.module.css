@@ -1,7 +1,45 @@
-body {
-  background-color: white;
+.logo {
+  width: 240px;
+  filter: drop-shadow(0 0 8px white);
 }
 
-.outer {
-  font: 300;
+.header {
+  margin: 50px;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nothing {
+  width: 500px;
+  margin: 50px;
+}
+
+.message {
+  color: white;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+.filter {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.selector {
+  border-radius: 15px;
+  width: 150px;
+  padding-left: 4px;
+}
+
+.selector:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
 }

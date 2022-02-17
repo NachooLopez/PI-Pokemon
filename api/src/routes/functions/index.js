@@ -56,7 +56,7 @@ module.exports = {
             attributes: [],
           },
         },
-        attributes: ["id", "name", "image", "attack"],
+        attributes: ["id", "name", "image", "attack", "created"],
       });
       return pokemons.map((e) => ({
         id: e.id,
@@ -64,6 +64,7 @@ module.exports = {
         image: e.image,
         attack: e.attack,
         types: e.types.map((e) => e.name),
+        created: e.created,
       }));
     } catch (e) {
       console.log(e);

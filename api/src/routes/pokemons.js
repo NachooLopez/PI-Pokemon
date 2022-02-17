@@ -11,11 +11,6 @@ const {
 
 const router = Router();
 
-router.get("/prueba", async (req, res) => {
-  const { name } = req.query;
-  res.json(await getDbPokemonByName(name.toLowerCase()));
-});
-
 router.get("/", async (req, res) => {
   try {
     const { name } = req.query;

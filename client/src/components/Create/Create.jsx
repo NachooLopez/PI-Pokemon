@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getTypes, createPokemon, getPokemons } from "../../actions";
 import logo from "../../img/Pokelogo.png";
-import style from "./Create.module.css";
+import styles from "./Create.module.css";
 
 const validate = (input) => {
   const error = {};
@@ -16,53 +16,45 @@ const validate = (input) => {
     error.name = "Name can only contain letters.";
   else if (input.name.length < 4)
     error.name = "Name must have a minimum length of 4.";
-
-  if (!validUrl.test(input.image) && input.image)
+  else if (!validUrl.test(input.image) && input.image)
     error.image = "Image field must have a valid URL or be empty.";
-
-  if (
+  else if (
     !validNum.test(input.hp) ||
     parseInt(input.hp) < 5 ||
     parseInt(input.hp) > 255
   )
     error.hp = "HP must be a number between 5 and 255.";
-
-  if (
+  else if (
     !validNum.test(input.attack) ||
     parseInt(input.attack) < 5 ||
     parseInt(input.attack) > 190
   )
     error.attack = "Attack must be a number between 5 and 190.";
-
-  if (
+  else if (
     !validNum.test(input.defense) ||
     parseInt(input.defense) < 5 ||
     parseInt(input.defense) > 250
   )
     error.defense = "Defense must be a number between 5 and 250.";
-
-  if (
+  else if (
     !validNum.test(input.speed) ||
     parseInt(input.speed) < 5 ||
     parseInt(input.speed) > 200
   )
     error.speed = "Speed must be a number between 5 and 200.";
-
-  if (
+  else if (
     !validNum.test(input.height) ||
     parseInt(input.height) < 5 ||
     parseInt(input.height) > 1000
   )
     error.height = "Height must be a number between 5 and 1000.";
-
-  if (
+  else if (
     !validNum.test(input.weight) ||
     parseInt(input.weight) < 5 ||
     parseInt(input.weight) > 10000
   )
     error.weight = "Weight must be a number between 5 and 10000.";
-
-  if (input.types.length <= 0 || input.types.length > 2)
+  else if (input.types.length <= 0 || input.types.length > 2)
     error.types = "Pokémons must have one or two types.";
 
   return error;
@@ -164,12 +156,12 @@ const Create = () => {
   return (
     <div>
       <Link to="/home">
-        <img src={logo} alt="Pokémon logo" className={style.logo} />
+        <img src={logo} alt="Pokémon logo" className={styles.logo} />
       </Link>
-      <div className={style.details}>
+      <div className={styles.details}>
         <h1>Create your pokémon!</h1>
-        <form onSubmit={handleSubmit} className={style.stats}>
-          <div className={style.nameDiv}>
+        <form onSubmit={handleSubmit} className={styles.stats}>
+          <div className={styles.nameDiv}>
             <label htmlFor="name">Name:</label>
             <input
               type="text"
@@ -179,10 +171,10 @@ const Create = () => {
               onChange={handleInput}
             />
             {errors.name && (
-              <em className={style.errorMessage}>{errors.name}</em>
+              <em className={styles.errorMessage}>{errors.name}</em>
             )}
           </div>
-          <div className={style.imageDiv}>
+          <div className={styles.imageDiv}>
             <label htmlFor="image">Image URL:</label>
             <input
               type="text"
@@ -192,10 +184,10 @@ const Create = () => {
               onChange={handleInput}
             />
             {errors.image && (
-              <em className={style.errorMessage}>{errors.image}</em>
+              <em className={styles.errorMessage}>{errors.image}</em>
             )}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="hp">HP:</label>
             <input
               type="range"
@@ -215,9 +207,9 @@ const Create = () => {
               min="0"
               max="255"
             />
-            {errors.hp && <em className={style.errorMessage}>{errors.hp}</em>}
+            {errors.hp && <em className={styles.errorMessage}>{errors.hp}</em>}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="attack">Attack:</label>
             <input
               type="range"
@@ -238,10 +230,10 @@ const Create = () => {
               max="190"
             />
             {errors.attack && (
-              <em className={style.errorMessage}>{errors.attack}</em>
+              <em className={styles.errorMessage}>{errors.attack}</em>
             )}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="defense">Defense:</label>
             <input
               type="range"
@@ -262,10 +254,10 @@ const Create = () => {
               max="250"
             />
             {errors.defense && (
-              <em className={style.errorMessage}>{errors.defense}</em>
+              <em className={styles.errorMessage}>{errors.defense}</em>
             )}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="speed">Speed:</label>
             <input
               type="range"
@@ -286,10 +278,10 @@ const Create = () => {
               max="200"
             />
             {errors.speed && (
-              <em className={style.errorMessage}>{errors.speed}</em>
+              <em className={styles.errorMessage}>{errors.speed}</em>
             )}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="height">Height:</label>
             <input
               type="range"
@@ -310,10 +302,10 @@ const Create = () => {
               max="1000"
             />
             {errors.height && (
-              <em className={style.errorMessage}>{errors.height}</em>
+              <em className={styles.errorMessage}>{errors.height}</em>
             )}
           </div>
-          <div className={style.stat}>
+          <div className={styles.stat}>
             <label htmlFor="weight">Weight:</label>
             <input
               type="range"
@@ -334,15 +326,15 @@ const Create = () => {
               max="10000"
             />
             {errors.weight && (
-              <em className={style.errorMessage}>{errors.weight}</em>
+              <em className={styles.errorMessage}>{errors.weight}</em>
             )}
           </div>
-          <div className={style.types}>
+          <div className={styles.types}>
             <select
               name="types"
               onChange={handleInput}
               disabled={input.types.length >= 2}
-              className={style.selector}
+              className={styles.selector}
               defaultValue="none"
             >
               <option value="none" disabled>
@@ -354,14 +346,14 @@ const Create = () => {
                 </option>
               ))}
             </select>
-            <div className={style.typesList}>
+            <div className={styles.typesList}>
               {input.types?.map((type) => (
-                <div key={type} className={style.type}>
+                <div key={type} className={styles.type}>
                   <span>{type}</span>
                   <button
                     type="button"
                     onClick={() => handleDelete(type)}
-                    className={style.button}
+                    className={styles.button}
                   >
                     x
                   </button>
@@ -369,13 +361,13 @@ const Create = () => {
               ))}
             </div>
             {errors.types && (
-              <em className={style.errorMessage}>{errors.types}</em>
+              <em className={styles.errorMessage}>{errors.types}</em>
             )}
           </div>
           <input
             type="submit"
             value="Create pokémon!"
-            className={style.submitButton}
+            className={styles.submitButton}
           />
         </form>
       </div>

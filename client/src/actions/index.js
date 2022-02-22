@@ -13,11 +13,12 @@ import {
 } from "../types";
 
 export const loading = () => ({ type: LOADING });
+const BACK_URL = "https://nache-poke-back.herokuapp.com";
 
 export const getPokemons = () => (dispatch) => {
   dispatch(loading());
   axios
-    .get("http://localhost:3001/pokemons")
+    .get(`${BACK_URL}/pokemons`)
     .then((pokemons) => {
       dispatch({ type: GET_POKEMONS, payload: pokemons.data });
     })
@@ -27,7 +28,7 @@ export const getPokemons = () => (dispatch) => {
 export const findByName = (name) => (dispatch) => {
   dispatch(loading());
   axios
-    .get(`http://localhost:3001/pokemons?name=${name}`)
+    .get(`${BACK_URL}/pokemons?name=${name}`)
     .then((pokemon) => {
       dispatch({ type: GET_POKEMON_BY_NAME, payload: pokemon.data });
     })
@@ -37,7 +38,7 @@ export const findByName = (name) => (dispatch) => {
 export const getById = (id) => (dispatch) => {
   dispatch(loading());
   axios
-    .get(`http://localhost:3001/pokemons/${id}`)
+    .get(`${BACK_URL}/pokemons/${id}`)
     .then((pokemon) => {
       dispatch({ type: GET_POKEMON_BY_ID, payload: pokemon.data });
     })
@@ -46,13 +47,13 @@ export const getById = (id) => (dispatch) => {
 
 export const getTypes = () => (dispatch) => {
   axios
-    .get("http://localhost:3001/types")
+    .get(`${BACK_URL}/types`)
     .then((types) => dispatch({ type: GET_TYPES, payload: types.data }))
     .catch((e) => console.log(e));
 };
 
 export const createPokemon = (payload) => (dispatch) => {
-  axios.post("http://localhost:3001/pokemons", payload);
+  axios.post(`${BACK_URL}/pokemons`, payload);
 };
 
 export const clearDetails = () => ({
@@ -80,5 +81,5 @@ export const filterByType = (payload) => ({
 });
 
 export const deletePokemon = (payload) => (dispatch) => {
-  axios.delete(`http://localhost:3001/pokemons/${payload}`);
+  axios.delete(`${BACK_URL}/pokemons/${payload}`);
 };

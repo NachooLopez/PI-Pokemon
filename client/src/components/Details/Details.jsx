@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { getById } from "../../actions";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { deletePokemon, getById } from "../../actions";
 import styles from "./Details.module.css";
 import logo from "../../img/Pokelogo.png";
 import nothingFound from "../../img/sad_bulbasaur.png";
@@ -12,10 +12,17 @@ const Details = () => {
   const { details, loading } = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getById(params.id));
   }, [dispatch, params.id]);
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    dispatch(deletePokemon(id));
+    navigate("/home");
+  };
 
   const types = details.types?.map((e) => (
     <div key={e} className={styles.type}>
@@ -43,7 +50,12 @@ const Details = () => {
         </div>
       ) : (
         <div className={styles.details}>
-          <div className={styles.name}>{details.name}</div>
+          <div>
+            <div className={styles.name}>{details.name}</div>
+            {details.created && (
+              <button onClick={(e) => handleDelete(e, details.id)}>X</button>
+            )}
+          </div>
           <div className={styles.imgContainer}>
             <img
               src={details.image}

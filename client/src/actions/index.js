@@ -78,3 +78,7 @@ export const filterByType = (payload) => ({
   type: FILTER_BY_TYPE,
   payload,
 });
+
+export const deletePokemon = (payload) => (dispatch) => {
+  axios.delete(`http://localhost:3001/pokemons/${payload}`);
+};

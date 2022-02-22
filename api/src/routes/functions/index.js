@@ -165,6 +165,7 @@ module.exports = {
         speed: foundPokemon.speed,
         height: foundPokemon.height,
         weight: foundPokemon.weight,
+        created: foundPokemon.created,
       };
     } catch (e) {
       console.log(e);
@@ -206,5 +207,13 @@ module.exports = {
     } catch (e) {
       console.log(e);
     }
+  },
+  deletePokemon: async (id) => {
+    Pokemon.destroy({
+      where: {
+        id,
+      },
+    });
+    return { success: "Pokémon deleted successfully!" };
   },
 };

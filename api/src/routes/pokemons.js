@@ -7,6 +7,7 @@ const {
   getApiPokemonById,
   getDbPokemonById,
   createPokemon,
+  deletePokemon,
 } = require("./functions");
 
 const router = Router();
@@ -66,6 +67,12 @@ router.post("/", async (req, res) => {
     image
   );
   res.json(pokemon);
+});
+
+router.delete("/:pokeId", async (req, res) => {
+  const { pokeId } = req.params;
+  const deleted = deletePokemon(pokeId);
+  res.json(deleted);
 });
 
 module.exports = router;

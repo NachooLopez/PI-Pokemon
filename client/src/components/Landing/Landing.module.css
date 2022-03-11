@@ -13,10 +13,6 @@
 }
 
 .background {
-  display: flex;
-  z-index: 0;
-  flex-direction: column;
-  gap: 30px;
   margin: 20px;
   height: calc(100vh - 40px);
   width: calc(100vw - 40px);

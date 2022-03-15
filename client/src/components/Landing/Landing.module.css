@@ -15,6 +15,7 @@
   height: calc(100vh - 40px);
   width: calc(100vw - 40px);
   background-color: white;
+  opacity: 85%;
   border-radius: 20px;
 }
 

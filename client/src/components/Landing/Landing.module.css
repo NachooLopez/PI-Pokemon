@@ -7,7 +7,6 @@
   margin: 20px;
   height: calc(100vh - 40px);
   width: calc(100vw - 40px);
-  opacity: 85%;
   border-radius: 20px;
 }
 
@@ -16,14 +15,12 @@
   height: calc(100vh - 40px);
   width: calc(100vw - 40px);
   background-color: white;
-  opacity: 85%;
   border-radius: 20px;
 }
 
 .logo {
   height: 200px;
   margin: 50px auto 70px auto;
-  opacity: 200%;
 }
 
 .button {
